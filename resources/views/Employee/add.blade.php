@@ -11,6 +11,7 @@
         <div class="card-body">
             <form action="{{ url('admin/employees/save') }}" method="POST" id="employeeForm">
                 @csrf
+                <input type="hidden" id="hidden_id" value="0">
 
                 <div class="row mb-3">
                     <div class="col-md-6">
@@ -73,7 +74,12 @@
         valid += checkField('doj', 'doj_err');
 
         if (valid === 0) {
-            $('#employeeForm').submit();
+            valid += uniqueFieldCheck('employee_id', 'employee_id_err', 'hidden_id', 'tbl_employee', 'employee_id', 'id');
+            valid += uniqueFieldCheck('email', 'email_err', 'hidden_id', 'tbl_employee', 'email', 'id');
+
+        if (valid === 0) {
+                $('#employeeForm').submit();
+            }
         }
     });
 </script>
