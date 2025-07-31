@@ -45,6 +45,34 @@
             }
             return valid_man;
         }
+        function uniqueFieldCheck(fieldId, errorId, recordIdId, table, column, idColumnName) {
+            let isUnique = true;
+            const fieldValue = $('#' + fieldId).val();
+            const recordId = $('#' + recordIdId).val();
+
+            $.ajax({
+                url: "{{ url('admin/employees/checkUnique') }}",
+                method: 'GET',
+                data: {
+                    field: fieldValue,
+                    id: recordId,
+                    table: table,
+                    reg_column: column,
+                    reg_id_check: idColumnName,
+                },
+                async: false,
+                cache: false,
+                success: function (response) {
+                    if (response.success === false) {
+                        $('#' + errorId).html(response.message);
+                        isUnique = false;
+                    } else {
+                        $('#' + errorId).html('');
+                    }
+                }
+            });
+            return isUnique ? 0 : 1;
+        }
     </script>
 </body>
 </html>
