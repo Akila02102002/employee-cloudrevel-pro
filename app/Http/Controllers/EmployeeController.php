@@ -126,4 +126,26 @@ class EmployeeController extends Controller{
         $employee->save();
         return redirect('admin/employees')->with('success', $resVal['message']);
     }
+    public function checkUniqueFields(Request $request){
+        $resVal = array();
+        $resVal['success'] = True;
+        $field = $request->input('field');
+        $id = $request->input('id', 0);
+        if (!empty($id) && $id != 0) {
+            $query = DB::table($request->table)
+                    ->where($request->reg_column, '=', $field)
+                    ->where($request->reg_id_check, '!=', $id)
+                    ->count();
+        } else {
+            $query = DB::table($request->table)
+                    ->where($request->reg_column, '=', $field)
+                    ->count();
+        }
+
+        if ($query > 0) {
+            $resVal['message'] = 'Already Exist';
+            $resVal['success'] = FALSE;
+        }
+        return $resVal;
+    }
 }
