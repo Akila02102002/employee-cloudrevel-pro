@@ -16,6 +16,7 @@ Route::middleware(['auth'])->group(function () {
         Route::POST('/employees/update/{id}', 'App\Http\Controllers\EmployeeController@edit');
         Route::get('/employees/view/{id}', 'App\Http\Controllers\EmployeeController@view');
         Route::delete('/employees/delete/{id}', 'App\Http\Controllers\EmployeeController@delete');
+        Route::get('/employees/checkUnique', 'App\Http\Controllers\EmployeeController@checkUniqueFields');
     });
 });
 Route::POST('logout', 'App\Http\Controllers\AuthController@logout')->name('logout');
