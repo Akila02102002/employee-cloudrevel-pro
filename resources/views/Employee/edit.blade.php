@@ -11,6 +11,7 @@
         <div class="card-body">
             <form class="form form-add-data" action ="{{ url('admin/employees/update/'.$query->id).'?page='.$page }}" id="kt_form_1"  method="POST">
                 @csrf
+                <input type="hidden" id="hidden_id" value="{{ $query->id }}">
 
                 <div class="row mb-3">
                     <div class="col-md-6">
@@ -73,7 +74,12 @@
         valid += checkField('doj', 'doj_err');
 
         if (valid === 0) {
-            $('#kt_form_1').submit();
+            valid += uniqueFieldCheck('employee_id', 'employee_id_err', 'hidden_id', 'tbl_employee', 'employee_id', 'id');
+            valid += uniqueFieldCheck('email', 'email_err', 'hidden_id', 'tbl_employee', 'email', 'id');
+
+        if (valid === 0) {
+                $('#kt_form_1').submit();
+            }
         }
     });
 </script>
